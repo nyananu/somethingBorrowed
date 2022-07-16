@@ -1,5 +1,5 @@
 const express = require('express')
-const { STATUS } = require('../../constants')
+const { STATUS, RATINGS } = require('../../constants')
 const { isLoggedIn, isItemOwner } = require('../middleware')
 
 const Item = require('../models/Item')
@@ -127,5 +127,53 @@ router.post('/:id/rating', isLoggedIn, async (req, res) => {
     result: rated
   })
 })
+
+router.get('/applySearchText/:searchText', isLoggedIn, async (req, res) => {
+	const searchText = JSON.parse(req.params.searchText).searchText
+	const rateList = JSON.parse(req.params.searchText).rateList
+	
+	let rList = [];
+	if (rateList[0]) {
+		rList.push(RATINGS.UNRATED)
+	}
+	if (rateList[1]) {
+		rList.push(RATINGS.ONE)
+	}
+	if (rateList[2]) {
+		rList.push(RATINGS.TWO)
+	}
+	if (rateList[3]) {
+		rList.push(RATINGS.THREE)
+	}
+	if (rateList[4]) {
+		rList.push(RATINGS.FOUR)
+	}
+	if (rateList[5]) {
+		rList.push(RATINGS.FIVE)
+	}
+
+	let items;
+	if (searchText !== '' && rList.length > 0) {
+		items = await Item.find({name: { $regex: searchText }, rating: { $in: rList } })
+		res.send({
+		  result: items
+		})
+	} else if (searchText !== '') {
+		items = await Item.find({name: { $regex: searchText }})
+		res.send({
+		  result: items
+		})
+	}else if(rList.length > 0){
+		items = await Item.find({rating: { $in: rList }})
+		res.send({
+		  result: items
+		})
+	}else{
+		items = await Item.find()
+		res.send({
+		  result: items
+		})
+	}
+  })
 
 module.exports = router
