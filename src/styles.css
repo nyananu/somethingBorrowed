@@ -49,6 +49,7 @@ Form {
     margin: 10px;
     padding: 10px;
     max-height: 100%;
+    min-height: 800px;
     overflow-y: scroll;
     background-color: #E4E4E4;
     border-radius: 10px;
@@ -91,7 +92,9 @@ Form {
 
 .borrowed-items-container{
     justify-content: center;
-    max-width: 800px;
+    width: 800px;
+    max-height: 100%;
+    min-height: 800px;
     background-color: lightgrey;
     border-radius: 10px;
     padding: 10px;
@@ -104,4 +107,29 @@ Form {
 
 #rating-label{
     color: #2869AB;
+}
+
+.marketplace{
+    margin: 10px;
+    display: flex;
+    justify-content: center;
+    width: auto;
+}
+
+.filter-container{
+    background-color: lightblue;
+    width: auto;
+    height: auto;
+}
+
+.filters{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 10px;
+}
+
+.reset-filter{
+    height: 40px;
+    margin-left: 10px;
 }
